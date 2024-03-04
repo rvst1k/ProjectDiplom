@@ -1,0 +1,140 @@
+﻿@{
+    string currentPage = System.IO.Path.GetFileNameWithoutExtension(Context.Request.Path);
+}
+
+@if (currentPage == "ExerciseAuthorized")
+{
+    <style>
+        #headerbutton2 {
+            background-color: #1b4e9b;
+            color:white;
+        }
+        #headerbutton1, #headerbutton3{
+            color: #999999;
+            background-color: white;
+        }
+       </style>
+}
+else if (currentPage == "ComplexAuthorized")
+{
+    <style>
+        #headerbutton3 {
+            background-color: #1b4e9b;
+            color: white;
+        }
+
+        #headerbutton1, #headerbutton2 {
+            color: #999999;
+            background-color: white;
+        }
+    </style>
+}
+
+else if (currentPage == "LK_Profile")
+{
+    <style>
+
+        #headerbutton1, #headerbutton2, #headerbutton3 {
+            color: #999999;
+            background-color: white;
+        }
+    </style>
+}
+
+else if (currentPage == "Admin_Panel")
+{
+    <style>
+
+        #headerbutton1, #headerbutton2, #headerbutton3 {
+            color: #999999;
+            background-color: white;
+        }
+    </style>
+}
+
+else if (currentPage == "LK_Profile")
+{
+    <style>
+
+        #headerbutton1, #headerbutton2, #headerbutton3 {
+            color: #999999;
+            background-color: white;
+        }
+    </style>
+}
+
+else {
+    <style>
+        #headerbutton1 {
+            background-color: #1b4e9b;
+            color: white;
+        }
+
+        #headerbutton2, #headerbutton3 {
+            color: #999999;
+            background-color: white;
+        }
+    </style>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ExerciseComplex.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <img src="https://sun21-2.userapi.com/impg/Ugq0CXct2bVQODTeIwAntUEnCj4BkkSXZ438pg/9YEf1x_hX0Y.jpg?size=1295x536&quality=96&sign=cda1fb822c0a10a530340850869bb90a&type=album"
+                 width="250" height="100" style="margin-left: 160px">
+            <div style="width: 1500px; font-style: inherit; font-weight: bold; font-size: 18px">
+                КАЗАНСКИЙ НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ<br/>
+                ТЕХНИЧЕСКИЙ УНИВЕРСИТЕТ ИМ. А. Н. ТУПОЛЕВА - КАИ
+            <a class="btn btn-light btn-lg" id="openLoginPopup" asp-area="" asp-controller="Home" asp-action="LK_Profile" style="color:#1b4e9b;
+            background-color: white; font-style: inherit; font-weight: bold; font-size: 18px; margin-left: 350px; margin-top: -10px">
+            ПРОФИЛЬ</a>
+            <img src="https://yt3.googleusercontent.com/JSpCseY81ssACVWe7NF77DjziIqa1h_K2FKanx17vHGyqTDJaWkTWwFcplJQkBl0LITgBRjGpg=s900-c-k-c0x00ffffff-no-rj"
+                 width="30" height="30" style="margin-right: 10px; margin-left: -10px; margin-top: -10px">
+            </div>
+        
+    </nav>
+
+    <header class="text-center">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbarlight bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid d-flex justify-content-center">
+                <div>
+                    <a class="btn btn-light btn-lg" id="headerbutton1" asp-area="" asp-controller="Home" asp-action="IndexAuthorized" style="width:400px;
+                        height:70px; margin-left: -156px;">Главная</a>
+                </div>
+                <div>
+                    <a class="btn btn-light btn-lg" id="headerbutton2" asp-area="" asp-controller="Home" asp-action="ExerciseAuthorized" style="width:400px; height:70px;">Упражнения</a>
+                </div>
+                <div>
+                    <a class="btn btn-light btn-lg" id="headerbutton3" asp-area="" asp-controller="Home" asp-action="ComplexAuthorized" style="width:400px; height:70px;">Комплексы</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+           КНИТУ-КАИ 
+           <p>ДАННЫЙ САЙТ НЕ ЯВЛЯЕТСЯ ОФИЦИАЛЬНЫМ САЙТОМ ОРГАНИЗАЦИИ</p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)  
+</body>
+</html>

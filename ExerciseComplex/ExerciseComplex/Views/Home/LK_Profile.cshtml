@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Личный Кабинет";
+}
+@{
+    Layout = "_LayoutAuthorized";
+}
+
+    <div class="container mt-6">
+        <form>
+
+            <div class="form-row">
+                <div class="form-group col-6 offset-6">
+                    <input type="text" class="form-control" id="password" style="margin-top:10px; width:300px; visibility: hidden" value="@ViewBag.Password">
+                    <input type="text" class="form-control" id="login" style="margin-top:10px; width:300px" value="@ViewBag.Login">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-6 offset-6">
+                    <input type="text" class="form-control" id="name" style="margin-top:10px; width:300px" value="@ViewBag.Name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-6 offset-6">
+                    <input type="text" class="form-control" id="surname" style="margin-top:10px; width:300px" value="@ViewBag.Surname">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-6 offset-6">
+                    <input type="text" class="form-control" id="patronymic" style="margin-top:10px; width:300px" value="@ViewBag.Patronymic">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-6 offset-6 text-center mt-3">
+                <a class="btn btn-light btn-lg"
+                   style="background-color: white; color: #1b4e9b; font-style: inherit; font-weight: bold; font-size: 18px; margin-right:155px">Сохранить</a>
+
+                </div>
+               
+                    <div class="col-6 offset-6 text-center mt-3">
+                       <a class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Index"
+                       style="background-color: white; color: red;font-style: inherit; font-weight: bold; font-size: 18px; margin-right:130px; margin-top:-10px">Выйти</a>
+                   </div>
+            </div>
+
+        </form>
+    </div>
+

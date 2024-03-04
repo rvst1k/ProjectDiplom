@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5 position-relative">     
+        <div class="row justify-content-center">        
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="Exercise">
+                    <img src="https://free-images.com/or/4777/cross_gray_forbidden_159808.jpg" class="logo" alt="Logo">      
+                    </a>
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Логин</h2>                        
+                        <form>
+                            <div class="form-group">
+                                <label for="username">Логин</label>
+                                <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Пароль</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль" required>
+                            </div>
+                            <div>
+                                <a href="Register">
+                                <label style="margin-left: 100px">Создать аккаунт?</label>
+                                </a>
+                            </div>
+                            <button type="submit" style="background-color:#1b4e9b" class="btn btn-primary btn-block" asp-area="" asp-controller="Home" asp-action="LK_Profile">Войти</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

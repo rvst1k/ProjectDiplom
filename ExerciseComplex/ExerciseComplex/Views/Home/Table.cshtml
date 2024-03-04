@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Таблица";
+}
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="table">
+    <h1>Пользователи:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @using (DiplomContext db = new DiplomContext())
+            {
+                @foreach (var item in db.Exercises)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <form asp-controller="Home" asp-action="Delete1" method="post" asp-route-id="@item.Id">
+                                <input type="submit" value="Удалить" />
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    </div>
+
