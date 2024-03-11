@@ -77,6 +77,26 @@ else {
     </style>
 }
 
+<style>
+    main {
+        min-height: calc(100vh - 145px); 
+        margin-bottom: 50px; 
+    }
+
+    footer {
+        height: 95px; 
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: #f8f9fa;
+        text-align: center;
+        padding-top: 20px;
+    }
+</style>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,13 +148,13 @@ else {
 
     <footer class="border-top footer text-muted">
         <div class="container">
-           КНИТУ-КАИ 
-           <p>ДАННЫЙ САЙТ НЕ ЯВЛЯЕТСЯ ОФИЦИАЛЬНЫМ САЙТОМ ОРГАНИЗАЦИИ</p>
+            КНИТУ-КАИ
+            <p>ДАННЫЙ САЙТ НЕ ЯВЛЯЕТСЯ ОФИЦИАЛЬНЫМ САЙТОМ ОРГАНИЗАЦИИ</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)  
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

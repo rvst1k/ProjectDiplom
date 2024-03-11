@@ -1,0 +1,85 @@
+﻿@model Exercise
+@{
+    ViewBag.Title = "Добавление упражнения";
+}
+
+
+<style>
+    /* Стили для полей ввода */
+    .form-control {
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+    textarea.form-control {
+        height: auto;
+    }
+
+
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        color: #fff;
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        background-color: #1b4e9b;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .btn:hover {
+            background-color: #0a3c7a;
+        }
+
+        .btn:focus {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(27, 78, 155, 0.5);
+        }
+</style>
+
+<form asp-action="create" asp-controller="home" class="mt-4">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Название</label>
+        <input type="text" asp-for="Name" name="name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Link" class="control-label">Ссылка</label>
+        <input type="text" asp-for="Link" name="link" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Preview" class="control-label">Превью</label>
+        <input type="text" asp-for="Preview" name="preview" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Описание</label>
+        <textarea asp-for="Description" name="description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <button style="margin-top: 15px" type="submit" class="btn btn-primary">Отправить</button>
+    </div>
+</form>

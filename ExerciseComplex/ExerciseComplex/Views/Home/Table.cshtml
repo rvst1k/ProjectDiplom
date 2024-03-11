@@ -3,17 +3,44 @@
 }
 
 @{
-    Layout = "_Layout";
+    Layout = null;
 }
 
+<style>
+    .table {
+        margin: 20px;
+    }
+
+        .table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+           
+        }
+</style>
+
 <div class="table">
+    <a style="color: #1b4e9b; font-size: 20px" asp-action="Create">Добавить упражнение</a>
     <h1>Пользователи:</h1>
     <table>
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,18 +49,25 @@
                 @foreach (var item in db.Exercises)
                 {
                     <tr>
-                        <td>@item.Id</td>
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>
-                            <form asp-controller="Home" asp-action="Delete1" method="post" asp-route-id="@item.Id">
-                                <input type="submit" value="Удалить" />
-                            </form>
+                        <td>
+                            <a style="color: #1b4e9b" asp-action="About" asp-controller="Home" asp-route-id="@item.Id">
+                                Подробнее
+                            </a> |
+                            <a style="color: #1b4e9b" asp-action="Edit" asp-controller="Home" asp-route-id="@item.Id">
+                                Изменить
+                            </a> |
+                            <a style="color: #1b4e9b" asp-action="Delete" asp-controller="Home" asp-route-id="@item.Id">
+                                Удалить
+                            </a>
                         </td>
                     </tr>
                 }
             }
         </tbody>
     </table>
-    </div>
-
+    <a style="color: #1b4e9b; font-size: 20px; margin-top: 20px
+" asp-action="Index">Вернуться к списку упражнений</a>
+</div>
