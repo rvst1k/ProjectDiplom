@@ -11,44 +11,45 @@
         <div class="row">
             <div class="col-6 d-flex align-items-center justify-content-center">
                 <div style="margin-right: 10px;">
-                    <input type="text" 
-                        class="form-control" id="password" name="password" style="margin-top:10px; visibility: hidden; width: 250px;" value="@ViewBag.Password">
+                    <input type="text"
+                           class="form-control" id="password" name="password" style="margin-top:5px; visibility: hidden; width: 250px;" value="@ViewBag.Password">
                     <img src="@ViewBag.Link" style="width: 200px; height: 200px; border-radius: 50%;">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-row">
-                    <div class="form-group">       
-                        
-                        
-
-                        <input type="text" class="form-control" id="login" name="login" style="margin-top:10px; width: 250px" value="@ViewBag.Login" readonly>
+                    <div class="form-group">
+                        <label for="login">Логин:</label>
+                        <input type="text" class="form-control" id="login" name="login" style="margin-top:5px; width: 250px" value="@ViewBag.Login" readonly>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="name" name="name" style="margin-top:10px; width: 250px" value="@ViewBag.Name" readonly>
+                        <label for="name">Имя:</label>
+                        <input type="text" class="form-control" id="name" name="name" style="margin-top:5px; width: 250px" value="@ViewBag.Name" readonly>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="surname" name="surname" style="margin-top:10px; width: 250px" value="@ViewBag.Surname" readonly>
+                        <label for="surname">Фамилия:</label>
+                        <input type="text" class="form-control" id="surname" name="surname" style="margin-top:5px; width: 250px" value="@ViewBag.Surname" readonly>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="patronymic" name="patronymic" style="margin-top:10px; width: 250px" value="@ViewBag.Patronymic" readonly>
+                        <label for="patronymic">Отчество:</label>
+                        <input type="text" class="form-control" id="patronymic" name="patronymic" style="margin-top:5px; width: 250px" value="@ViewBag.Patronymic" readonly>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-12 text-center mt-3">
                         <a class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Save"
-                        style="background-color: white; color: #1b4e9b; font-style: inherit; 
+                           style="background-color: white; color: #1b4e9b; font-style: inherit;
                                 font-weight: bold; font-size: 18px; margin-top: 10px; margin-left: -220px">Сохранить</a>
                     </div>
                     <div class="col-12 text-center mt-3">
                         <a class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Index"
-                           style="background-color: white; color: red; font-style: inherit; font-weight: bold; 
+                           style="background-color: white; color: red; font-style: inherit; font-weight: bold;
                                     font-size: 18px; margin-top: 10px;  margin-left: -220px">Выйти</a>
                     </div>
                 </div>
