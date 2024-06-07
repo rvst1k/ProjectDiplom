@@ -1,5 +1,6 @@
 ﻿using ExerciseComplex.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -81,11 +82,6 @@ namespace ExerciseComplex.Controllers
             return View();
         }
 
-        public IActionResult Save(string login, string name, string password, string surname, string patronymic)
-        {
-            return View("Index");
-        }
-
         public IActionResult LoginPopup()
         {
             return View();
@@ -95,39 +91,82 @@ namespace ExerciseComplex.Controllers
 
             return View();
         }
-
-
         public IActionResult Table()
         {
 
             return View();
         }
 
-
-        public IActionResult LK_Profile(string login, string password)
+        [HttpPost]
+        public IActionResult SomeEditsky(int userId, string name, string surname, string patronymic)
         {
             using (DiplomContext db = new DiplomContext())
             {
+                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+
+                if (user != null)
+                {
+                    user.Name = name;
+                    user.Surname = surname;
+                    user.Patronymic = patronymic;
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Обработка ошибки сохранения, например, вывод сообщения об ошибке или логирование
+                        Console.WriteLine($"Ошибка при сохранении изменений: {ex.Message}");
+                    }
+                }
+                return RedirectToAction("LK_Profile");
+            }
+        }
+        public class UserProfileViewModel
+        {
+            public string Login { get; set; }
+            public string Name { get; set; }
+            public string Surname { get; set; }
+            public string Patronymic { get; set; }          
+        }
+
+        public IActionResult LK_Profile(string login, string name, string surname, string patronymic)
+        {
+            var viewModel = new UserProfileViewModel
+            {
+                Login = login,
+                Name = name,
+                Surname = surname,
+                Patronymic = patronymic
+               
+            };
+            return View(viewModel);
+        }
+       
+        public IActionResult Login(string login, string password)
+        {
+            using (DiplomContext db = new DiplomContext())
+            {                
                 var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
 
                 if (user != null)
                 {
-                    if (user.RolesId == 2)
+                    if (user.RolesId == 1)
                     {
-                        ViewBag.Login = user.Login;
-                        ViewBag.Password = user.Password;
-                        ViewBag.Name = user.Name;
-                        ViewBag.Surname = user.Surname;
-                        ViewBag.Patronymic = user.Patronymic;
-                        ViewBag.Link = user.ProfilePicture;
-                        return View();
+                        return RedirectToAction("Table", "Home");
                     }
-                    else if (user.RolesId == 1)
+                    else if (user.RolesId == 2)
                     {
-                        return View("Table");
+                        return RedirectToAction("LK_Profile", "Home", new
+                        {
+                            login = user.Login,
+                            name = user.Name,
+                            surname = user.Surname,
+                            patronymic = user.Patronymic
+                       });
                     }
                 }
-                return View("LoginPopup");
+                return RedirectToAction("Login", "Home");
             }
         }
 
@@ -186,10 +225,10 @@ namespace ExerciseComplex.Controllers
         {
             using (DiplomContext db = new DiplomContext())
             {
-                Exercise exercise = await db.Exercises.FindAsync(id); 
+                Exercise exercise = await db.Exercises.FindAsync(id);
                 if (exercise == null)
                 {
-                    return NotFound(); 
+                    return NotFound();
                 }
                 exercise.Name = name;
                 exercise.Description = description;
@@ -209,7 +248,7 @@ namespace ExerciseComplex.Controllers
                 if (exercise == null)
                 {
                     return NotFound();
-                }              
+                }
                 db.Remove(exercise);
                 db.SaveChanges();
                 return RedirectToAction("Table");
@@ -230,9 +269,9 @@ namespace ExerciseComplex.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> About (int id, string name, string description, string preview, string link)
-        {          
-                return RedirectToAction("Table");
-            }
+        public async Task<IActionResult> About(int id, string name, string description, string preview, string link)
+        {
+            return RedirectToAction("Table");
         }
     }
+}

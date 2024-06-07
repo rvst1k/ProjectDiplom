@@ -27,7 +27,7 @@
                     </a>
                     <div class="card-body">
                         <h2 class="text-center mb-4">Логин</h2>                        
-                        <form>
+                        <form action="/Home/Login" method="post">
                             <div class="form-group">
                                 <label for="username">Логин</label>
                                 <input type="text" class="form-control" id="login" name="login" placeholder="Введите логин" required>
@@ -41,7 +41,7 @@
                                 <label style="margin-left: 100px">Создать аккаунт?</label>
                                 </a>
                             </div>
-                            <button type="submit" style="background-color:#1b4e9b" class="btn btn-primary btn-block" asp-area="" asp-controller="Home" asp-action="LK_Profile">Войти</button>
+                            <button type="submit" style="background-color:#1b4e9b" class="btn btn-primary btn-block" asp-area="" asp-controller="Home" asp-action="Login">Войти</button>
                         </form>
                     </div>
                 </div>

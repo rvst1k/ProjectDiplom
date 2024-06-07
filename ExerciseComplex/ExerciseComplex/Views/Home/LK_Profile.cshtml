@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Личный Кабинет";
 }
 @{
@@ -6,51 +7,50 @@
 }
 
 
+
 <div class="container mt-6">
     <form>
         <div class="row">
             <div class="col-6 d-flex align-items-center justify-content-center">
-                <div style="margin-right: 10px;">
-                    <input type="text"
-                           class="form-control" id="password" name="password" style="margin-top:5px; visibility: hidden; width: 250px;" value="@ViewBag.Password">
-                    <img src="@ViewBag.Link" style="width: 200px; height: 200px; border-radius: 50%;">
+                <div style="margin-right: 10px;">                
+                    <img src="https://goo.su/HtckeC" style="width: 200px; height: 200px; border-radius: 50%;">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="login">Логин:</label>
-                        <input type="text" class="form-control" id="login" name="login" style="margin-top:5px; width: 250px" value="@ViewBag.Login" readonly>
+                        <label class="control-label">Логин:</label>
+                        <input type="text" class="form-control" id="login" value="@Model.Login" name="login" style="margin-top:5px; width: 250px">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="name">Имя:</label>
-                        <input type="text" class="form-control" id="name" name="name" style="margin-top:5px; width: 250px" value="@ViewBag.Name" readonly>
+                        <label class="control-label">Имя:</label>
+                        <input type="text" class="form-control" id="name" value="@Model.Name" name="name" style="margin-top:5px; width: 250px">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="surname">Фамилия:</label>
-                        <input type="text" class="form-control" id="surname" name="surname" style="margin-top:5px; width: 250px" value="@ViewBag.Surname" readonly>
+                        <label class="control-label">Фамилия:</label>
+                        <input type="text" class="form-control" id="surname" value="@Model.Surname" name="surname" style="margin-top:5px; width: 250px">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="patronymic">Отчество:</label>
-                        <input type="text" class="form-control" id="patronymic" name="patronymic" style="margin-top:5px; width: 250px" value="@ViewBag.Patronymic" readonly>
+                        <label class="control-label">Отчество:</label>
+                        <input type="text" class="form-control" id="patronymic" value="@Model.Patronymic" name="patronymic" style="margin-top:5px; width: 250px">
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-12 text-center mt-3">
-                        <a class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Save"
+                        <button class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="SomeEditsky"
                            style="background-color: white; color: #1b4e9b; font-style: inherit;
-                                font-weight: bold; font-size: 18px; margin-top: 10px; margin-left: -220px">Сохранить</a>
+                                font-weight: bold; font-size: 18px; margin-top: 10px; margin-left: -220px">Сохранить</button>
                     </div>
                     <div class="col-12 text-center mt-3">
-                        <a class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Index"
+                        <button class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Index"
                            style="background-color: white; color: red; font-style: inherit; font-weight: bold;
-                                    font-size: 18px; margin-top: 10px;  margin-left: -220px">Выйти</a>
+                                    font-size: 18px; margin-top: 10px;  margin-left: -220px">Выйти</button>
                     </div>
                 </div>
             </div>
