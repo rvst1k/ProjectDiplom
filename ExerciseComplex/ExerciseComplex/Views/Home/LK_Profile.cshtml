@@ -7,56 +7,76 @@
     Layout = "_LayoutAuthorized";
 }
 
-
+<style>
+    .highlighted-button {
+        text-decoration: underline;
+        color: #1b4e9b; /* Цвет текста */
+        font-weight: bold; /* Жирный шрифт */
+    }
+</style>
 
 <div class="container mt-6">
-    <form asp-area="" asp-controller="Home" asp-action="SaveProfile" method="post">
-        <div class="row">
-            <div class="col-6 d-flex align-items-center justify-content-center">
-                <div style="margin-right: 10px;">                
-                    <img src="https://goo.su/HtckeC" style="width: 200px; height: 200px; border-radius: 50%;">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="control-label">Логин:</label>
-                        <input type="text" class="form-control" id="login" value="@Model.Login" name="login" style="margin-top:5px; width: 250px">
+    <div class="row">
+        <div class="col-2">
+            <a asp-area="" asp-controller="Home" asp-action="LK_Profile" class="btn btn-light btn-lg highlighted-button" style="background-color: white; color: #1b4e9b; font-style: inherit; font-weight: bold; font-size: 18px; margin-top: 10px;">Профиль</a>
+            <a asp-area="" asp-controller="Home" asp-action="MyComplexes" class="btn btn-light btn-lg" style="background-color: white; color: #1b4e9b; font-style: inherit; font-weight: bold; font-size: 18px; margin-top: 10px;">Мои комплексы</a>
+        </div>
+        <div class="col-10">
+            <div class="container mt-6">
+                <form asp-area="" asp-controller="Home" asp-action="SaveProfile" method="post">
+                    <div class="row">
+                        <div class="col-6 d-flex align-items-center justify-content-center">
+                            <div style="margin-right: 10px;">
+                                <img src="https://goo.su/HtckeC" style="width: 200px; height: 200px; border-radius: 50%;">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="control-label">Логин:</label>
+                                    <input type="text" class="form-control" id="login" value="@Model.Login" name="login" style="margin-top:5px; width: 250px">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="control-label">Имя:</label>
+                                    <input type="text" class="form-control" id="name" value="@Model.Name" name="name" style="margin-top:5px; width: 250px">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="control-label">Фамилия:</label>
+                                    <input type="text" class="form-control" id="surname" value="@Model.Surname" name="Surname" style="margin-top:5px; width: 250px">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="control-label">Отчество:</label>
+                                    <input type="text" class="form-control" id="patronymic" value="@Model.Patronymic" name="Patronymic" style="margin-top:5px; width: 250px">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-12 text-center mt-3">
+                                    <button class="btn btn-light btn-lg"
+                                            style="background-color: white; color: #1b4e9b; font-style: inherit;
+                                font-weight: bold; font-size: 18px; margin-top: 10px; margin-left: -220px">
+                                        Сохранить
+                                    </button>
+                                </div>
+                                <div class="col-12 text-center mt-3">
+                                    <button class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Index"
+                                            style="background-color: white; color: red; font-style: inherit; font-weight: bold;
+                                    font-size: 18px; margin-top: 10px;  margin-left: -220px">
+                                        Выйти
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="control-label">Имя:</label>
-                        <input type="text" class="form-control" id="name" value="@Model.Name" name="name" style="margin-top:5px; width: 250px">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="control-label">Фамилия:</label>
-                        <input type="text" class="form-control" id="surname" value="@Model.Surname" name="Surname" style="margin-top:5px; width: 250px">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="control-label">Отчество:</label>
-                        <input type="text" class="form-control" id="patronymic" value="@Model.Patronymic" name="Patronymic" style="margin-top:5px; width: 250px">
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center mt-3">
-                        <button class="btn btn-light btn-lg"
-                           style="background-color: white; color: #1b4e9b; font-style: inherit;
-                                font-weight: bold; font-size: 18px; margin-top: 10px; margin-left: -220px">Сохранить</button>
-                    </div>
-                    <div class="col-12 text-center mt-3">
-                        <button class="btn btn-light btn-lg" asp-area="" asp-controller="Home" asp-action="Index"
-                           style="background-color: white; color: red; font-style: inherit; font-weight: bold;
-                                    font-size: 18px; margin-top: 10px;  margin-left: -220px">Выйти</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 

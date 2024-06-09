@@ -9,7 +9,7 @@
 <body>
     @using (DiplomContext db = new DiplomContext())
     {
-        <div style="display: grid; grid-template-columns: auto auto; justify-content: center; gap: 55px;">
+        <div style="display: grid; grid-template-columns: auto auto auto; justify-content: center; gap: 55px;">
             @foreach (var item in db.Exercises)
             {
                 <div class="ui card" style="width: 300px; height: 350px; border-radius: 10px; overflow: hidden;">
@@ -26,6 +26,7 @@
             }
         </div>
     }
+
 
     <script>
         function playVideo(link) {

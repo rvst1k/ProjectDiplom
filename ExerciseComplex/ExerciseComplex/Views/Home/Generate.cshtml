@@ -1,36 +1,175 @@
-﻿@{
+﻿
+
+@{
     ViewData["Title"] = "Комплексы";
 }
 
 @{
     Layout = "_LayoutAuthorized";
 }
+@{
+    Random random = new Random();
+}
+<style>
+    .ui.card {
+        margin-bottom: 20px;
+        float: left; 
+    }
+
+    .extra.content p {
+        font-weight: bold; 
+        font-size: 1.1em; 
+        text-align: center; 
+    }
+
+    .green-shadow {
+        box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.7);
+    }
+
+    .green-shadow-button {
+        background-color: #1b4e9b; /* Зеленый цвет кнопки */
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%; /* Чтобы кнопка всегда была посередине */
+    }
+
+    .global-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #1b4e9b;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        width: 350px;
+    }
+
+        .global-button:hover {
+            background-color: #0e3362;
+        }
+
+</style>
 
 
 <body>
-    
-@using (DiplomContext db = new DiplomContext())
+
+    @using (DiplomContext db = new DiplomContext())
     {
+        int difficultyId = ViewBag.DifficultyId;
+        int typeId = ViewBag.TypeId;
+        int aimId = ViewBag.AimId;
+
+        int heltype = 0;
+
+        if (typeId == 1)
+        {
+            heltype = 4;
+        }
+        else if (typeId == 2)
+        {
+            heltype = 7;
+        }
+        else if (typeId == 3)
+        {
+            heltype = 6;
+        }
+        else if(typeId == 4)
+        {
+            heltype = 1;
+        }
+        else if (typeId == 5)
+        {
+            heltype = 4;
+
+        }
+        else if (typeId == 6)
+        {
+            heltype = 3;
+        }
+        else if (typeId == 7)
+        {
+            heltype = 2;
+        }
+
+
+        var filteredExercises = db.Exercises.Where(e => e.TypeId == typeId || e.TypeId == heltype && 
+        e.AimId == aimId || e.AimId == aimId+1 && e.DifficultyId == difficultyId || e.DifficultyId == difficultyId+1).ToList();
+
+        var randomizedExercises = filteredExercises.OrderBy(x => random.Next())
+        .Take(difficultyId == 1 ? 6 : (difficultyId == 2 ? 8 : 10))
+        .ToList();
+
         <div style="display: grid; grid-template-columns: auto auto; justify-content: center; gap: 55px;">
-            @foreach (var item in db.Exercises)
+            @foreach (var exercise in randomizedExercises)
             {
-                <div class="ui card" style="width: 300px; height: 350px; border-radius: 10px; overflow: hidden;">
+                <div class="ui card" style="width: 300px; height: 500px; border-radius: 10px; overflow: hidden;">
                     <div class="content">
-                        <label class="header" style="color:#1b4e9b; cursor: pointer; padding: 10px" onclick="playVideo('@item.Link')">@item.Name</label>
-                        <img src="@item.Preview" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px 10px 0 0; padding: 10px">
+                        <label class="header" style="color:#1b4e9b; cursor: pointer; padding: 10px" onclick="playVideo('@exercise.Link')">@exercise.Name</label>
+                        <img src="@exercise.Preview" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px 10px 0 0; padding: 10px">
                         <div class="description" style="padding: 10px;">
-                            @item.Description
+                            @exercise.Description
                         </div>
                     </div>
-                    <div class="extra content">
+                    <div class="extra content" style="padding: 10px;">
+                        @if (random.Next(1, 4) == 1)
+                        {
+                            <p>2*15 повторений</p>
+                        }
+                        else if (random.Next(1, 4) == 2)
+                        {
+                            <p>3*10 повторений</p>
+                        }
+                        else if(random.Next(1,4) == 3)
+                        {
+                            <p>3*15 повторений</p>
+                        }
+                        else
+                        {
+                            <p>2*10 повторений</p>
+                        }
+                        <div class="button-container">
+                            <button class="green-shadow-button" onclick="addGreenShadow(this)">Выполнено</button>
+                        </div>
                     </div>
                 </div>
             }
         </div>
-    }
+
+        <div style="display: flex; justify-content: center;">
+            <form method="post" action="/Home/SaveComplex" style="width: 300px;">
+                <div style="display: flex; flex-direction: column;">
+                    <input type="text" name="complexname" id="complexname" placeholder="Название комплекса" style="padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <input type="text" name="complexdesc" id="complexdesc" placeholder="Описание комплекса" style="padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    <button type="submit" class="global-button" style="width: 100%;">Сохранить</button>
+                </div>
+            </form>
+        </div>
+
+
+
+}
+
+
+
     <script>
         function playVideo(link) {
             window.open(link, '_blank');
         }
+        function addGreenShadow(button) {
+        button.closest('.ui.card').classList.add('green-shadow');
+    }
     </script>
 </body>

@@ -12,15 +12,16 @@
         <p>Выделите критерии для подбора:</p>
         <div class="row">
             <div class="col-md-4">
-                @Html.DropDownList("ExerciseDifficulty", ViewBag.ExerciseDifficulties as SelectList, new { @class = "form-control", id = "exerciseDifficulty" })
+                @Html.DropDownList("exerciseDifficulty", ViewBag.ExerciseDifficulties as SelectList, new { @class = "form-control", id = "exercisedifficulty" })
             </div>
             <div class="col-md-4">
-                @Html.DropDownList("ExerciseType", ViewBag.ExerciseTypes as SelectList, new { @class = "form-control" })
+                @Html.DropDownList("exerciseType", ViewBag.ExerciseTypes as SelectList, new { @class = "form-control", id = "exercisetype" })
             </div>
             <div class="col-md-4">
-                @Html.DropDownList("ExerciseAim", ViewBag.ExerciseAims as SelectList, new { @class = "form-control" })
+                @Html.DropDownList("exerciseAim", ViewBag.ExerciseAims as SelectList, new { @class = "form-control", id="exerciseaim" })
             </div>
         </div>
         <button class="btn btn-primary mt-2">Сгенерировать</button>
     </div>
 </form>
+

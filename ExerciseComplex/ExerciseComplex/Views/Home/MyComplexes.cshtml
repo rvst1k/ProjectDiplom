@@ -1,0 +1,54 @@
+﻿@model List<Complex>
+@{
+    ViewData["Title"] = "Мои Комплексы";
+}
+@{
+    Layout = "_LayoutAuthorized";
+}
+
+<style>
+    .highlighted-button {
+        text-decoration: underline;
+        color: #1b4e9b; /* Цвет текста */
+        font-weight: bold; /* Жирный шрифт */
+    }
+</style>
+
+
+<div class="container mt-6">
+    <div class="row">
+        <div class="col-2">
+            <a asp-area="" asp-controller="Home" asp-action="LK_Profile" class="btn btn-light btn-lg" style="background-color: white; color: #1b4e9b; font-style: inherit; font-weight: bold; font-size: 18px; margin-top: 10px;">Профиль</a>
+            <a asp-area="" asp-controller="Home" asp-action="MyComplexes" class="btn btn-light btn-lg highlighted-button" style="background-color: white; color: #1b4e9b; font-style: inherit; font-weight: bold; font-size: 18px; margin-top: 10px;">Мои комплексы</a>
+        </div>
+        <div class="col-10">
+            <h2>Мои комплексы</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var complex in Model)
+                        {
+                            <tr>
+                                <td>@complex.Name</td>
+                                <td>@complex.Description</td>
+                                <td><a href="#">Изменить</a></td>
+                            </tr>
+                        }                    
+                    }
+                    else
+                    {
+                        <p>No data available</p>                      
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

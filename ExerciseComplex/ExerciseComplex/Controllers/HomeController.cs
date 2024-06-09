@@ -43,11 +43,11 @@ namespace ExerciseComplex.Controllers
             {
                 var existingUserCount = db.Users.Count(u => u.Login == login && u.Password == password && u.RolesId == 2);
 
-                if (existingUserCount > 0)
-                {
+                    if (existingUserCount > 0)
+                    {
+                    ViewBag.WarningMessage = "Пользователь с таким именем уже зарегистрирован. Пожалуйста, выберите другое имя.";
                     return View("Register");
-                }
-
+                    }
                 try
                 {
                     User newUser = new User
@@ -87,12 +87,104 @@ namespace ExerciseComplex.Controllers
                 return View();
             }
         }
+        public IActionResult Generate(string exerciseDifficulty, string exerciseType, string exerciseAim)
+        {
+            int id_dif, id_type, id_aim;
+            if (exerciseDifficulty == "Легко")
+            {
+                id_dif = 1;
+            }
+            else if(exerciseDifficulty == "Средне")
+            {
+                id_dif = 2;
+            }
+            else
+            {
+                id_dif = 3;
+            }
+
+            if (exerciseType == "Спина и Шея")
+            {
+                id_type = 1;
+            }
+            else if(exerciseType == "Ягодицы")
+            {
+                id_type = 2;
+            }
+            else if(exerciseType == "Пресс и косые")
+            {
+                id_type = 3;
+            }
+            else if(exerciseType== "Плечи")
+            {
+                id_type = 4;
+            }
+            else if(exerciseType == "Руки")
+            {
+                id_type = 5;
+            }
+            else if(exerciseType == "Грудь")
+            {
+                id_type= 6;
+            }
+            else
+            {
+                id_type = 7;
+            }
+            if(exerciseAim == "Похудеть")
+            {
+                id_aim = 1;
+            }
+            else if(exerciseAim == "Рельеф")
+            {
+                id_aim = 2;
+            }
+            else
+            {
+                id_aim = 3;
+            }
+            ViewBag.DifficultyId = id_dif;
+            ViewBag.TypeId = id_type;
+            ViewBag.AimId = id_aim;
+            return View();
+            return View();
+        }
 
 
-     
-        public IActionResult Generate()
-        {           
-                return View();            
+        [HttpPost]
+        public async Task<IActionResult> SaveComplex(string complexname, string complexdesc)
+        {
+            if (User.Identity.IsAuthenticated) 
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; 
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    using (var db = new DiplomContext())
+                    {
+                        var newComplex = new Complex
+                        {
+                            Name = complexname,
+                            Description = complexdesc,
+                            UserId = int.Parse(userId)
+                        };
+
+                        db.Complexes.Add(newComplex);
+                        await db.SaveChangesAsync();
+                    }
+                }
+
+                return RedirectToAction("LK_Profile");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
+
+        public IActionResult MyComplexes()
+        {
+            return View();
         }
 
         public IActionResult Exercise()
@@ -123,23 +215,49 @@ namespace ExerciseComplex.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveProfile(UserProfileViewModel model)
         {
-            // Получение данных пользователя из базы данных
+
             using (DiplomContext db = new DiplomContext())
             {
-                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
-                var user = await db.Users.FirstOrDefaultAsync(o => o.Id == userId);
+                if (model.Login == null || model.Name == null || model.Surname == null || model.Patronymic == null) 
+                {
+                    
+                }
+                else
+                {
+                    var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+                    var user = await db.Users.FirstOrDefaultAsync(o => o.Id == userId);
 
-                // Обновление данных пользователя
-                user.Login = model.Login;
-                user.Name = model.Name;
-                user.Surname = model.Surname;
-                user.Patronymic = model.Patronymic;
+                    user.Login = model.Login;
+                    user.Name = model.Name;
+                    user.Surname = model.Surname;
+                    user.Patronymic = model.Patronymic;
 
-                await db.SaveChangesAsync(); // Сохранение изменений в базе данных
+                    await db.SaveChangesAsync();
+                }
+
+                return RedirectToAction("LK_Profile");
             }
-
-            return RedirectToAction("LK_Profile"); // Перенаправление на страницу профиля
         }
+
+        public async Task<IActionResult> MyComplexesData()
+        {
+            using (DiplomContext db = new DiplomContext())
+            {               
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    int? userIdInt = int.Parse(userId); // Конвертируем userId в int?
+                    var complexes = await db.Complexes.Where(c => c.UserId == userIdInt).ToListAsync();
+
+                    return View(complexes);
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+        }
+
 
         public async Task<IActionResult> LK_Profile()
         {
