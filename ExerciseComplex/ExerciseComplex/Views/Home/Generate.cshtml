@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Комплексы";
+}
+
+@{
+    Layout = "_LayoutAuthorized";
+}
+
+
+<body>
+    
+@using (DiplomContext db = new DiplomContext())
+    {
+        <div style="display: grid; grid-template-columns: auto auto; justify-content: center; gap: 55px;">
+            @foreach (var item in db.Exercises)
+            {
+                <div class="ui card" style="width: 300px; height: 350px; border-radius: 10px; overflow: hidden;">
+                    <div class="content">
+                        <label class="header" style="color:#1b4e9b; cursor: pointer; padding: 10px" onclick="playVideo('@item.Link')">@item.Name</label>
+                        <img src="@item.Preview" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px 10px 0 0; padding: 10px">
+                        <div class="description" style="padding: 10px;">
+                            @item.Description
+                        </div>
+                    </div>
+                    <div class="extra content">
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <script>
+        function playVideo(link) {
+            window.open(link, '_blank');
+        }
+    </script>
+</body>

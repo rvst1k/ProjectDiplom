@@ -6,7 +6,21 @@
     Layout = "_LayoutAuthorized";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Добро Пожаловать</h1>
-    <p>Тут скоро будет что-то интересное</p>
-</div>
+
+<form asp-area="" asp-controller="Home" asp-action="Generate" method="post">
+    <div class="text-center">
+        <p>Выделите критерии для подбора:</p>
+        <div class="row">
+            <div class="col-md-4">
+                @Html.DropDownList("ExerciseDifficulty", ViewBag.ExerciseDifficulties as SelectList, new { @class = "form-control", id = "exerciseDifficulty" })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("ExerciseType", ViewBag.ExerciseTypes as SelectList, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("ExerciseAim", ViewBag.ExerciseAims as SelectList, new { @class = "form-control" })
+            </div>
+        </div>
+        <button class="btn btn-primary mt-2">Сгенерировать</button>
+    </div>
+</form>

@@ -1,10 +1,14 @@
 ﻿using ExerciseComplex.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ExerciseComplex.Controllers
 {
@@ -69,7 +73,26 @@ namespace ExerciseComplex.Controllers
 
         public IActionResult ComplexAuthorized()
         {
-            return View();
+            using (DiplomContext db = new DiplomContext())
+            {
+                var exercisesdif = db.ExerciseDifficulties.Select(d => d.Name).ToList();
+                ViewBag.ExerciseDifficulties = new SelectList(exercisesdif);
+
+                var exercisetype = db.ExerciseTypes.Select(d => d.Name).ToList();
+                ViewBag.ExerciseTypes = new SelectList(exercisetype);
+
+                var exerciseaim = db.ExerciseAims.Select(d => d.Name).ToList();
+                ViewBag.ExerciseAims = new SelectList(exerciseaim);
+
+                return View();
+            }
+        }
+
+
+     
+        public IActionResult Generate()
+        {           
+                return View();            
         }
 
         public IActionResult Exercise()
@@ -98,77 +121,84 @@ namespace ExerciseComplex.Controllers
         }
 
         [HttpPost]
-        public IActionResult SomeEditsky(int userId, string name, string surname, string patronymic)
+        public async Task<IActionResult> SaveProfile(UserProfileViewModel model)
         {
+            // Получение данных пользователя из базы данных
             using (DiplomContext db = new DiplomContext())
             {
-                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+                var user = await db.Users.FirstOrDefaultAsync(o => o.Id == userId);
 
-                if (user != null)
-                {
-                    user.Name = name;
-                    user.Surname = surname;
-                    user.Patronymic = patronymic;
-                    try
-                    {
-                        db.SaveChanges();
-                    }
-                    catch (Exception ex)
-                    {
-                        // Обработка ошибки сохранения, например, вывод сообщения об ошибке или логирование
-                        Console.WriteLine($"Ошибка при сохранении изменений: {ex.Message}");
-                    }
-                }
-                return RedirectToAction("LK_Profile");
+                // Обновление данных пользователя
+                user.Login = model.Login;
+                user.Name = model.Name;
+                user.Surname = model.Surname;
+                user.Patronymic = model.Patronymic;
+
+                await db.SaveChangesAsync(); // Сохранение изменений в базе данных
             }
-        }
-        public class UserProfileViewModel
-        {
-            public string Login { get; set; }
-            public string Name { get; set; }
-            public string Surname { get; set; }
-            public string Patronymic { get; set; }          
+
+            return RedirectToAction("LK_Profile"); // Перенаправление на страницу профиля
         }
 
-        public IActionResult LK_Profile(string login, string name, string surname, string patronymic)
+        public async Task<IActionResult> LK_Profile()
         {
-            var viewModel = new UserProfileViewModel
+            UserProfileViewModel model = new UserProfileViewModel();
+
+            // Получение данных пользователя из базы данных
+            using (DiplomContext db = new DiplomContext())
             {
-                Login = login,
-                Name = name,
-                Surname = surname,
-                Patronymic = patronymic
-               
-            };
-            return View(viewModel);
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+                var user = await db.Users.FirstOrDefaultAsync(o => o.Id == userId);
+
+                model.Login = user.Login;
+                model.Name = user.Name;
+                model.Surname = user.Surname;
+                model.Patronymic = user.Patronymic;
+            }
+
+            return View(model); // Передача модели в представление
         }
-       
-        public IActionResult Login(string login, string password)
+
+        public async Task<IActionResult> Login(string login, string password)
         {
             using (DiplomContext db = new DiplomContext())
-            {                
-                var user = db.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
-
+            {
+                var user = await db.Users.FirstOrDefaultAsync(o => o.Login == login && o.Password == password);
                 if (user != null)
                 {
                     if (user.RolesId == 1)
                     {
-                        return RedirectToAction("Table", "Home");
+                        var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, "2")
+                };
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        return RedirectToAction("Table");
                     }
-                    else if (user.RolesId == 2)
+                    else
                     {
-                        return RedirectToAction("LK_Profile", "Home", new
-                        {
-                            login = user.Login,
-                            name = user.Name,
-                            surname = user.Surname,
-                            patronymic = user.Patronymic
-                       });
+                        var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, "1")
+                };
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        return RedirectToAction("LK_Profile");
                     }
                 }
-                return RedirectToAction("Login", "Home");
+                else
+                {
+                    return View("LoginPopup");
+                }
             }
         }
+
 
         public IActionResult Admin_Panel()
         {

@@ -7,7 +7,7 @@ public partial class ExerciseComplex
 {
     public int ExerciseId { get; set; }
 
-    public int? ComplexId { get; set; }
+    public int ComplexId { get; set; }
 
     public virtual Complex? Complex { get; set; }
 
